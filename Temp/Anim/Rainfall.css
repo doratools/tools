@@ -4,6 +4,8 @@
     border-radius: 16px;
     text-align:center;
     min-height: 155px;
+    overflow:hidden;
+    isolation:isolate;
 }
 .b h1, .b h3 {
     font-family: "Cormorant Garamond", serif;
