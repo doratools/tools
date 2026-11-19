@@ -31,7 +31,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 45px;
+    height: 45%;
     background: repeating-linear-gradient(90deg, #54e9b8 0 4px, transparent 4px 12px);
     mask: linear-gradient(0deg, #000, transparent);
     transform-origin: bottom;
@@ -44,7 +44,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    height: 28px;
+    height: 45%;
     background: repeating-linear-gradient(90deg, #7affcf 0 3px, transparent 3px 12px);
     mask: linear-gradient(0deg, #000, transparent);
     pointer-events: none;
