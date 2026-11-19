@@ -1,0 +1,60 @@
+#c {
+    position: relative;
+    border-radius: 16px;
+    background:linear-gradient(145deg,#152b28,#111b1c);
+    min-height: 155px;
+    overflow:hidden;
+    isolation:isolate;
+}
+#b {
+    padding: 22px;
+    width: 100%;
+    height: 100%;
+    min-height: 155px;
+}
+#b h1, #b h3 {
+    font-family: "Cormorant Garamond", serif;
+    margin: 0 0 12px;
+    width: 100%;
+    text-align: center;
+}
+#b p {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+}
+#b i {
+    margin-top: 12px;
+}
+#c:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 8% 15%, #d7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 15% 25%, #d7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 28% 12%, #c7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 42% 35%, #eaff9c 2px, transparent 4px),
+        radial-gradient(circle at 60% 15%, #baff9c 2px, transparent 4px),
+        radial-gradient(circle at 75% 30%, #c7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 88% 18%, #d7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 95% 42%, #eaff9c 2px, transparent 4px),
+        radial-gradient(circle at 12% 55%, #baff9c 2px, transparent 4px),
+        radial-gradient(circle at 30% 68%, #d7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 55% 75%, #eaff9c 2px, transparent 4px),
+        radial-gradient(circle at 72% 58%, #c7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 90% 85%, #baff9c 2px, transparent 4px),
+        radial-gradient(circle at 45% 92%, #d7ff8c 2px, transparent 4px),
+        radial-gradient(circle at 20% 88%, #eaff9c 2px, transparent 4px),
+        radial-gradient(circle at 65% 42%, #baff9c 2px, transparent 4px);
+    pointer-events: none;
+    animation: fire 3s ease-in-out infinite alternate;
+}
+@keyframes fire {
+    from {
+        opacity: 0.3;
+        filter: brightness(0.7);
+    }
+    to {
+        opacity: 1;
+        filter: brightness(1.8);
+    }
+}
