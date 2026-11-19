@@ -1,0 +1,36 @@
+#a {
+    position: relative;
+    background: #191625;
+    border-radius: 18px;
+    padding: 2px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+#a:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #ff5ea8, #9d65ff, #39dfff, #63ffb5, #ffdc73, #ff5ea8);
+    background-size: 300% 300%;
+    animation: flow 4s linear infinite;
+    z-index: 1;
+}
+@keyframes flow {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+#b {
+    position: relative;
+    background: #191625;
+    border-radius: 16px;
+    padding: 20px;
+    color: #fff;
+    z-index: 2;
+}
