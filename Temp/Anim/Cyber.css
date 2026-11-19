@@ -1,0 +1,61 @@
+#c {
+    position: relative;
+    border-radius: 16px;
+    background:linear-gradient(145deg,#26202e,#111722);
+    border:1px solid #c9a15a55;
+    min-height: 155px;
+    overflow:hidden;
+    isolation:isolate;
+}
+#b {
+    padding: 22px;
+    width: 100%;
+    height: 100%;
+    min-height: 155px;
+}
+#b h1, #b h3 {
+    font-family: "Cormorant Garamond", serif;
+    margin: 0 0 12px;
+    width: 100%;
+    text-align: center;
+}
+#b p {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+}
+#b i {
+    margin-top: 12px;
+}
+#c:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0 5px, #ffffff0c 6px);
+    pointer-events: none;
+    animation: scan 5s linear infinite;
+}
+#c:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: #e9c77b;
+    box-shadow: 0 0 12px #e9c77b;
+    pointer-events: none;
+    animation: line 4s linear infinite;
+}
+@keyframes scan {
+    to {
+        background-position: 0 100px;
+    }
+}
+@keyframes line {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 100%;
+    }
+}
