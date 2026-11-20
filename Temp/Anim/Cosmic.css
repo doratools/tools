@@ -1,0 +1,58 @@
+#c {
+    position: relative;
+    border-radius: 16px;
+    background:radial-gradient(circle at 50% 50%,#39275a,#171324 75%);
+    min-height: 155px;
+    overflow-x:hidden;
+    width: 100%;
+    aspect-ratio: 9/16;
+    overflow-y: scroll;
+    isolation:isolate;
+}
+#b {
+    padding: 22px;
+    width: 100%;
+    height: 100%;
+    min-height: 155px;
+}
+#b h1, #b h3 {
+    font-family: "Cormorant Garamond", serif;
+    margin: 0 0 12px;
+    width: 100%;
+    text-align: center;
+}
+#b p {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+}
+#b i {
+    margin-top: 12px;
+}
+#c:before,
+#c:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    pointer-events: none;
+}
+#c:before {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #c9a7ff77;
+    transform: translate(-50%, -50%);
+    animation: spin 12s linear infinite;
+}
+#c:after {
+    width: 110px;
+    height: 110px;
+    border: 1px solid #a48bff55;
+    transform: translate(-50%, -50%);
+    animation: spin 8s linear infinite reverse;
+}
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
