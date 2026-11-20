@@ -1,0 +1,74 @@
+#c {
+    position: relative;
+    border-radius: 16px;
+    background:radial-gradient(ellipse at 50% 110%,#71301f,#351923 55%,#1d151e);
+    min-height: 155px;
+    overflow:hidden;
+    isolation:isolate;
+}
+#b {
+    padding: 22px;
+    width: 100%;
+    height: 100%;
+    min-height: 155px;
+}
+#b h1, #b h3 {
+    font-family: "Cormorant Garamond", serif;
+    margin: 0 0 12px;
+    width: 100%;
+    text-align: center;
+}
+#b p {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+}
+#b i {
+    margin-top: 12px;
+}
+#c:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, #ffdb91 1px, transparent 1.8px),
+        radial-gradient(circle, #ff8b42 1.5px, transparent 2.5px), radial-gradient(circle, #ffbd65 1px, transparent 2px),
+        radial-gradient(circle, #ff572b 1.5px, transparent 2.5px);
+    background-size:
+        83px 100px,
+        117px 130px,
+        151px 110px,
+        193px 150px;
+    background-position:
+        10px 0,
+        45px 30px,
+        80px 15px,
+        120px 50px;
+    animation: sparks 4s linear infinite;
+}
+#c:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, #ff5b251c, transparent 65%);
+    pointer-events: none;
+}
+@keyframes sparks {
+    0% {
+        background-position:
+            10px 0,
+            45px 30px,
+            80px 15px,
+            120px 50px;
+        opacity: 0.2;
+    }
+    35% {
+        opacity: 1;
+    }
+    100% {
+        background-position:
+            25px -220px,
+            20px -280px,
+            110px -190px,
+            90px -250px;
+        opacity: 0;
+    }
+}
