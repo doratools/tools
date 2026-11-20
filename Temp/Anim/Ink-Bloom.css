@@ -3,7 +3,9 @@
     border-radius: 16px;
     background:#20202b;
     min-height: 155px;
-    overflow:hidden;
+    overflow-x:hidden;
+    aspect-ratio: 9 / 16;
+    overflow-y: scroll;
     isolation:isolate;
 }
 #b {
