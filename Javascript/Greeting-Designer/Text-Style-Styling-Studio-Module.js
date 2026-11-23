@@ -27,6 +27,8 @@
                 gradientEnabled: false,
                 gradColor1: "#38BDF8",
                 gradColor2: "#A78BFA",
+                imageClipEnabled: false,
+                imageClipUrl: "",
             };
         }
         return state.elementStyles[tag];
@@ -39,7 +41,7 @@
     }
 
     function buildMergedInternalCss(tpl, presentElements) {
-        const { state, parseTemplateRules, computeHeadingComplementColor, getTemplateBaseForTag } = GD;
+        const { state, parseTemplateRules, computeHeadingComplementColor, getTemplateBaseForTag, validateImageLink } = GD;
         const parsed = parseTemplateRules(tpl.style);
 
         if (!state.studioEnabled || !state.textStylesEnabled || presentElements.length === 0) {
@@ -122,7 +124,20 @@
                 removeProp("text-shadow");
             }
 
-            if (cfg.gradientEnabled) {
+            const clipValidation = cfg.imageClipEnabled ? validateImageLink(cfg.imageClipUrl) : { valid: false };
+            const safeClipUrl = clipValidation.valid ? cfg.imageClipUrl.trim().replace(/['"\\]/g, "") : "";
+
+            if (safeClipUrl) {
+                removeProp("background");
+                setOrReplaceProp("background-image", `url('${safeClipUrl}')`);
+                setOrReplaceProp("background-size", "cover");
+                setOrReplaceProp("background-position", "center");
+                setOrReplaceProp("-webkit-background-clip", "text");
+                setOrReplaceProp("-webkit-text-fill-color", "transparent");
+            } else if (cfg.gradientEnabled) {
+                removeProp("background-image");
+                removeProp("background-size");
+                removeProp("background-position");
                 setOrReplaceProp(
                     "background",
                     `linear-gradient(135deg, ${cfg.gradColor1.toLowerCase()}, ${cfg.gradColor2.toLowerCase()})`
@@ -131,6 +146,9 @@
                 setOrReplaceProp("-webkit-text-fill-color", "transparent");
             } else {
                 removeProp("background");
+                removeProp("background-image");
+                removeProp("background-size");
+                removeProp("background-position");
                 removeProp("-webkit-background-clip");
                 removeProp("-webkit-text-fill-color");
             }
@@ -180,6 +198,7 @@
             computeHeadingComplementColor,
             paintSwatchChip,
             updateSliderVisual,
+            validateImageLink,
         } = GD;
 
         const tpl = getSelectedTemplate();
@@ -264,6 +283,20 @@
         els.gradColor1Hex.textContent = cfg.gradColor1;
         paintSwatchChip(els.gradColor2Chip, cfg.gradColor2);
         els.gradColor2Hex.textContent = cfg.gradColor2;
+
+        els.imageClipToggle.checked = cfg.imageClipEnabled;
+        els.imageClipToggleText.textContent = cfg.imageClipEnabled ? "On" : "Off";
+        els.imageClipBody.classList.toggle("open", cfg.imageClipEnabled);
+        if (document.activeElement !== els.imageClipUrlInput) {
+            els.imageClipUrlInput.value = cfg.imageClipUrl;
+        }
+
+        const clipRes = validateImageLink(cfg.imageClipUrl);
+        const showError = cfg.imageClipEnabled && cfg.imageClipUrl.trim().length > 0 && !clipRes.valid;
+        els.imageClipUrlInput.classList.toggle("invalid", showError);
+        els.imageClipStatus.textContent = clipRes.message;
+        els.imageClipStatus.classList.toggle("error", showError);
+        els.imageClipStatus.classList.toggle("valid", cfg.imageClipEnabled && clipRes.valid);
     }
 
     function initTextStyles() {
@@ -290,7 +323,7 @@
         els.resetTextStylesBtn.addEventListener("click", () => {
             showCustomDialog({
                 title: "Reset Text Styles",
-                message: "Reset all Text Styles (colors, fonts, sizes, glow, shadow, and gradients) to default?",
+                message: "Reset all Text Styles (colors, fonts, sizes, glow, shadow, gradients, and image clip) to default?",
                 cancelText: "Cancel",
                 confirmText: "Reset Text",
                 onConfirm: () => {
@@ -475,6 +508,18 @@
                     scheduleLiveUpdate();
                 },
             });
+        });
+
+        els.imageClipToggle.addEventListener("change", () => {
+            const cfg = getTagState(state.targetEl);
+            cfg.imageClipEnabled = els.imageClipToggle.checked;
+            scheduleLiveUpdate();
+        });
+
+        els.imageClipUrlInput.addEventListener("input", () => {
+            const cfg = getTagState(state.targetEl);
+            cfg.imageClipUrl = els.imageClipUrlInput.value;
+            scheduleLiveUpdate();
         });
     }
 
