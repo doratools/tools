@@ -6,6 +6,68 @@
     const CHAR_LIMIT = 5750;
     const FAV_STORAGE_KEY = "greeting_designer_favourites_v1";
 
+    const IMAGE_EXTENSIONS = new Set([
+        "png",
+        "jpg",
+        "jpeg",
+        "jpe",
+        "jfif",
+        "gif",
+        "webp",
+        "avif",
+        "bmp",
+        "dib",
+        "svg",
+        "svgz",
+        "ico",
+        "cur",
+        "tif",
+        "tiff",
+        "heic",
+        "heif",
+        "apng",
+    ]);
+
+    const BLOCKED_MEDIA_EXTENSIONS = new Set([
+        "mp4",
+        "m4v",
+        "webm",
+        "mov",
+        "avi",
+        "mkv",
+        "flv",
+        "wmv",
+        "3gp",
+        "ogv",
+        "mp3",
+        "wav",
+        "ogg",
+        "aac",
+        "m4a",
+        "flac",
+        "wma",
+        "pdf",
+        "doc",
+        "docx",
+        "xls",
+        "xlsx",
+        "ppt",
+        "pptx",
+        "zip",
+        "rar",
+        "7z",
+        "tar",
+        "gz",
+        "html",
+        "htm",
+        "php",
+        "js",
+        "css",
+        "json",
+        "xml",
+        "txt",
+    ]);
+
     const DEFAULT_STORY = [
         "# The Lantern at Midnight",
         "## Rain Against the Window",
@@ -242,6 +304,11 @@
         gradColor2Btn: document.getElementById("gradColor2Btn"),
         gradColor2Chip: document.getElementById("gradColor2Chip"),
         gradColor2Hex: document.getElementById("gradColor2Hex"),
+        imageClipToggle: document.getElementById("imageClipToggle"),
+        imageClipToggleText: document.getElementById("imageClipToggleText"),
+        imageClipBody: document.getElementById("imageClipBody"),
+        imageClipUrlInput: document.getElementById("imageClipUrlInput"),
+        imageClipStatus: document.getElementById("imageClipStatus"),
         storyInput: document.getElementById("storyInput"),
         resetStoryBtn: document.getElementById("resetStoryBtn"),
         clearStoryBtn: document.getElementById("clearStoryBtn"),
@@ -276,6 +343,72 @@
         alertModalMsg: document.getElementById("alertModalMsg"),
         alertModalFooter: document.getElementById("alertModalFooter"),
     };
+
+    function validateImageLink(rawUrl) {
+        const trimmed = (rawUrl || "").trim();
+        if (!trimmed) {
+            return { valid: false, reason: "empty", message: "Paste a direct image or GIF link (PNG, JPG, JPEG, GIF, WEBP, AVIF, SVG...)." };
+        }
+
+        if (/^data:image\/([a-z0-9.+-]+);base64,/i.test(trimmed)) {
+            const sub = trimmed.match(/^data:image\/([a-z0-9.+-]+);base64,/i)[1].toLowerCase();
+            if (BLOCKED_MEDIA_EXTENSIONS.has(sub)) {
+                return { valid: false, reason: "blocked", message: `Rejected: "${sub}" format is not supported for Image Clip.` };
+            }
+            return { valid: true, reason: "ok", message: `Image clip active (${sub.toUpperCase()}).` };
+        }
+
+        let parsed;
+        try {
+            parsed = new URL(trimmed);
+        } catch {
+            return { valid: false, reason: "invalid_url", message: "Invalid link. Enter a valid http(s):// image or GIF URL." };
+        }
+
+        if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+            return { valid: false, reason: "protocol", message: "Only http:// or https:// image links are allowed." };
+        }
+
+        const pathLower = parsed.pathname.toLowerCase();
+        const extMatch = pathLower.match(/\.([a-z0-9]+)$/);
+        const ext = extMatch ? extMatch[1] : "";
+
+        if (ext && BLOCKED_MEDIA_EXTENSIONS.has(ext)) {
+            return {
+                valid: false,
+                reason: "blocked_type",
+                message: `Rejected ".${ext}" file. Only image & GIF formats (PNG, JPG, JPEG, GIF, WEBP, etc.) are allowed.`,
+            };
+        }
+
+        const queryFmt = (parsed.searchParams.get("format") || parsed.searchParams.get("fm") || parsed.searchParams.get("ext") || "").toLowerCase();
+        if (queryFmt && BLOCKED_MEDIA_EXTENSIONS.has(queryFmt)) {
+            return {
+                valid: false,
+                reason: "blocked_query",
+                message: `Rejected "${queryFmt}" format. Only image & GIF formats are allowed.`,
+            };
+        }
+
+        if (ext && IMAGE_EXTENSIONS.has(ext)) {
+            return { valid: true, reason: "ok", message: `Image clip active (.${ext.toUpperCase()}).` };
+        }
+
+        if (queryFmt && IMAGE_EXTENSIONS.has(queryFmt)) {
+            return { valid: true, reason: "ok", message: `Image clip active (${queryFmt.toUpperCase()}).` };
+        }
+
+        // Allow image-hosting URLs without explicit extension unless a non-image extension was detected
+        if (!ext) {
+            return { valid: true, reason: "ok", message: "Image URL accepted." };
+        }
+
+        return {
+            valid: false,
+            reason: "unknown_ext",
+            message: `Rejected ".${ext}". Use an image or GIF link (PNG, JPG, JPEG, GIF, WEBP, AVIF, SVG, etc.).`,
+        };
+    }
 
     function saveFavourites() {
         try {
@@ -827,6 +960,7 @@
         ELEMENT_LABELS,
         state,
         els,
+        validateImageLink,
         normalizeHex,
         paintSwatchChip,
         hexToHsva,
