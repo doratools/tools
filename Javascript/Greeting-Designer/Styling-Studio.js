@@ -95,7 +95,7 @@
     }
 
     function initStylingStudio() {
-        const { els, state, hexToHsva, hsvaToHex, scheduleLiveUpdate, showCustomDialog, textStyles } = GD;
+        const { els, state, hexToHsva, hsvaToHex, scheduleLiveUpdate, showCustomDialog, textStyles, bgFx } = GD;
 
         bindPointerDrag(els.cpSvBox, (nx, ny) => {
             cpState.s = nx;
@@ -151,11 +151,16 @@
         els.resetStudioBtn.addEventListener("click", () => {
             showCustomDialog({
                 title: "Reset Styling Studio",
-                message: "Reset all Styling Studio customizations back to the selected template defaults?",
+                message: "Reset all Styling Studio customizations back to default?",
                 cancelText: "Cancel",
                 confirmText: "Reset All",
                 onConfirm: () => {
-                    textStyles.resetAllTextStylesToTemplate();
+                    if (textStyles && typeof textStyles.resetAllTextStylesToTemplate === "function") {
+                        textStyles.resetAllTextStylesToTemplate();
+                    }
+                    if (bgFx && typeof bgFx.resetBgFxToDefault === "function") {
+                        bgFx.resetBgFxToDefault();
+                    }
                     scheduleLiveUpdate();
                 },
             });
