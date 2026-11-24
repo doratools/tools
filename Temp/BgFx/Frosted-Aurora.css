@@ -1,0 +1,21 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  inset: -40%;
+  background: conic-gradient(from 45deg at 50% 50%, var(--c1), transparent 40%, var(--c2), transparent 85%, var(--c1));
+  filter: blur(45px);
+  opacity: 0.45;
+}
