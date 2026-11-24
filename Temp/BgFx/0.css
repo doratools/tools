@@ -1,0 +1,8 @@
+#c #b {
+  position: relative;
+  z-index: 1;
+  background-image: var(--bg);
+  background-position: var(--bgp, 50% 50%);
+  background-size: var(--bgs, cover);
+  background-repeat: no-repeat;
+}
