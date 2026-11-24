@@ -1,0 +1,24 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  top: 45%;
+  background: 
+    linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c1) 25%, transparent)),
+    repeating-linear-gradient(to right, color-mix(in srgb, var(--c2) 30%, transparent) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(to bottom, color-mix(in srgb, var(--c2) 30%, transparent) 0 1px, transparent 1px 15px);
+  transform: perspective(180px) rotateX(45deg);
+  transform-origin: bottom;
+}
