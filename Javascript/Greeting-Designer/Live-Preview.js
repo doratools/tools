@@ -33,6 +33,7 @@
   #b h3 { font-size: 16px; margin: 6px 0; opacity: 0.9; }
   #b b { font-weight: 700; }
 </style>
+<link id="bgfx-ext-css" rel="stylesheet" href="">
 <link id="tpl-ext-css" rel="stylesheet" href="">
 <style id="tpl-inline-css"></style>
 </head>
@@ -43,7 +44,7 @@
         doc.close();
     }
 
-    function renderPreviewFrame(tpl, mergedStyle, storyHtml) {
+    function renderPreviewFrame(tpl, mergedStyle, storyHtml, bgFxHref) {
         const { els, state } = GD;
         let frameDoc = els.previewFrame.contentDocument;
         if (!frameDoc || !frameDoc.getElementById("mount")) {
@@ -52,9 +53,15 @@
         }
         if (!frameDoc) return;
 
+        const bgFxLink = frameDoc.getElementById("bgfx-ext-css");
         const extLink = frameDoc.getElementById("tpl-ext-css");
         const inlineStyle = frameDoc.getElementById("tpl-inline-css");
         const mount = frameDoc.getElementById("mount");
+
+        const targetFxHref = bgFxHref || "";
+        if (bgFxLink && bgFxLink.getAttribute("href") !== targetFxHref) {
+            bgFxLink.setAttribute("href", targetFxHref);
+        }
 
         inlineStyle.textContent = mergedStyle;
 
