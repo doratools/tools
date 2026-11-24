@@ -1,0 +1,19 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  box-shadow: inset 12px 0 35px -10px var(--c1), inset -12px 0 35px -10px var(--c2);
+  opacity: 0.65;
+}
