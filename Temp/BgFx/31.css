@@ -1,0 +1,29 @@
+#b::before {
+  width: 140px;
+  height: 140px;
+  inset: -30px auto auto -30px;
+  border-radius: 50%;
+  box-shadow: 18px 18px 0 0 color-mix(in srgb, var(--c1) 35%, transparent);
+}
+#b::after {
+  width: 140px;
+  height: 140px;
+  inset: auto -30px -30px auto;
+  border-radius: 50%;
+  box-shadow: -18px -18px 0 0 color-mix(in srgb, var(--c2) 35%, transparent);
+}
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
