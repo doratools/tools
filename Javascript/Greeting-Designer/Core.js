@@ -235,6 +235,15 @@
         targetEl: "h1",
         presentElements: ["h1", "h2", "h3", "p"],
         elementStyles: {},
+        bgFxEnabled: false,
+        bgFxSelected: "",
+        bgFxColor1: "#38BDF8",
+        bgFxColor2: "#A78BFA",
+        bgImageEnabled: false,
+        bgImageUrl: "",
+        bgPosX: 50,
+        bgPosY: 50,
+        bgZoom: 100,
     };
 
     const els = {
@@ -309,6 +318,29 @@
         imageClipBody: document.getElementById("imageClipBody"),
         imageClipUrlInput: document.getElementById("imageClipUrlInput"),
         imageClipStatus: document.getElementById("imageClipStatus"),
+        bgFxToggle: document.getElementById("bgFxToggle"),
+        bgFxToggleText: document.getElementById("bgFxToggleText"),
+        bgFxBody: document.getElementById("bgFxBody"),
+        resetBgFxBtn: document.getElementById("resetBgFxBtn"),
+        bgFxSelectBtn: document.getElementById("bgFxSelectBtn"),
+        bgFxSelectLabel: document.getElementById("bgFxSelectLabel"),
+        bgFxColor1Btn: document.getElementById("bgFxColor1Btn"),
+        bgFxColor1Chip: document.getElementById("bgFxColor1Chip"),
+        bgFxColor1Hex: document.getElementById("bgFxColor1Hex"),
+        bgFxColor2Btn: document.getElementById("bgFxColor2Btn"),
+        bgFxColor2Chip: document.getElementById("bgFxColor2Chip"),
+        bgFxColor2Hex: document.getElementById("bgFxColor2Hex"),
+        bgImageToggle: document.getElementById("bgImageToggle"),
+        bgImageToggleText: document.getElementById("bgImageToggleText"),
+        bgImageBody: document.getElementById("bgImageBody"),
+        bgImageUrlInput: document.getElementById("bgImageUrlInput"),
+        bgImageStatus: document.getElementById("bgImageStatus"),
+        bgPosXSlider: document.getElementById("bgPosXSlider"),
+        bgPosXVal: document.getElementById("bgPosXVal"),
+        bgPosYSlider: document.getElementById("bgPosYSlider"),
+        bgPosYVal: document.getElementById("bgPosYVal"),
+        bgZoomSlider: document.getElementById("bgZoomSlider"),
+        bgZoomVal: document.getElementById("bgZoomVal"),
         storyInput: document.getElementById("storyInput"),
         resetStoryBtn: document.getElementById("resetStoryBtn"),
         clearStoryBtn: document.getElementById("clearStoryBtn"),
@@ -347,15 +379,19 @@
     function validateImageLink(rawUrl) {
         const trimmed = (rawUrl || "").trim();
         if (!trimmed) {
-            return { valid: false, reason: "empty", message: "Paste a direct image or GIF link (PNG, JPG, JPEG, GIF, WEBP, AVIF, SVG...)." };
+            return {
+                valid: false,
+                reason: "empty",
+                message: "Paste a direct image or GIF link (PNG, JPG, JPEG, GIF, WEBP, AVIF, SVG...).",
+            };
         }
 
         if (/^data:image\/([a-z0-9.+-]+);base64,/i.test(trimmed)) {
             const sub = trimmed.match(/^data:image\/([a-z0-9.+-]+);base64,/i)[1].toLowerCase();
             if (BLOCKED_MEDIA_EXTENSIONS.has(sub)) {
-                return { valid: false, reason: "blocked", message: `Rejected: "${sub}" format is not supported for Image Clip.` };
+                return { valid: false, reason: "blocked", message: `Rejected: "${sub}" format is not supported.` };
             }
-            return { valid: true, reason: "ok", message: `Image clip active (${sub.toUpperCase()}).` };
+            return { valid: true, reason: "ok", message: `Image valid (${sub.toUpperCase()}).` };
         }
 
         let parsed;
@@ -381,7 +417,12 @@
             };
         }
 
-        const queryFmt = (parsed.searchParams.get("format") || parsed.searchParams.get("fm") || parsed.searchParams.get("ext") || "").toLowerCase();
+        const queryFmt = (
+            parsed.searchParams.get("format") ||
+            parsed.searchParams.get("fm") ||
+            parsed.searchParams.get("ext") ||
+            ""
+        ).toLowerCase();
         if (queryFmt && BLOCKED_MEDIA_EXTENSIONS.has(queryFmt)) {
             return {
                 valid: false,
@@ -391,14 +432,13 @@
         }
 
         if (ext && IMAGE_EXTENSIONS.has(ext)) {
-            return { valid: true, reason: "ok", message: `Image clip active (.${ext.toUpperCase()}).` };
+            return { valid: true, reason: "ok", message: `Image valid (.${ext.toUpperCase()}).` };
         }
 
         if (queryFmt && IMAGE_EXTENSIONS.has(queryFmt)) {
-            return { valid: true, reason: "ok", message: `Image clip active (${queryFmt.toUpperCase()}).` };
+            return { valid: true, reason: "ok", message: `Image valid (${queryFmt.toUpperCase()}).` };
         }
 
-        // Allow image-hosting URLs without explicit extension unless a non-image extension was detected
         if (!ext) {
             return { valid: true, reason: "ok", message: "Image URL accepted." };
         }
@@ -575,10 +615,13 @@
         return GD.TEMPLATES.find((t) => t.id === state.selectedId) || GD.TEMPLATES[0];
     }
 
-    function buildTemplateCode(tpl, mergedStyle, storyHtml) {
+    function buildTemplateCode(tpl, mergedStyle, storyHtml, bgFxData) {
+        const fx = bgFxData || { linkTag: "", topCssRule: "" };
+        const prefixLink = fx.linkTag ? `${fx.linkTag}\n` : "";
+        const topRule = fx.topCssRule ? `${fx.topCssRule}\n` : "";
         return (
-            `<link rel="stylesheet" href="${tpl.css}">\n` +
-            `<style>\n${mergedStyle}\n</style>\n` +
+            `${prefixLink}<link rel="stylesheet" href="${tpl.css}">\n` +
+            `<style>\n${topRule}${mergedStyle}\n</style>\n` +
             `<div id="${tpl.outerId}"><div id="b">${storyHtml}${tpl.extraHtml}</div></div>`
         );
     }
@@ -598,8 +641,17 @@
         GD.textStyles.syncTargetElementDropdown(presentElements);
         GD.textStyles.syncStudioControlsToTarget();
 
+        if (GD.bgFx && typeof GD.bgFx.syncBgFxControls === "function") {
+            GD.bgFx.syncBgFxControls();
+        }
+
         const mergedStyle = GD.textStyles.buildMergedInternalCss(tpl, presentElements);
-        const fullCode = buildTemplateCode(tpl, mergedStyle, storyHtml);
+        const bgFxData =
+            GD.bgFx && typeof GD.bgFx.getBgFxOutput === "function"
+                ? GD.bgFx.getBgFxOutput()
+                : { linkTag: "", cssHref: "", topCssRule: "" };
+
+        const fullCode = buildTemplateCode(tpl, mergedStyle, storyHtml, bgFxData);
 
         els.codeOutput.value = fullCode;
         const len = fullCode.length;
@@ -620,7 +672,12 @@
         els.infoDesc.textContent = tpl.desc;
 
         if (GD.preview && typeof GD.preview.renderPreviewFrame === "function") {
-            GD.preview.renderPreviewFrame(tpl, mergedStyle, storyHtml);
+            GD.preview.renderPreviewFrame(
+                tpl,
+                `${bgFxData.topCssRule ? bgFxData.topCssRule + "\n" : ""}${mergedStyle}`,
+                storyHtml,
+                bgFxData.cssHref
+            );
         }
     }
 
@@ -942,6 +999,9 @@
         }
         if (GD.textStyles && typeof GD.textStyles.initTextStyles === "function") {
             GD.textStyles.initTextStyles();
+        }
+        if (GD.bgFx && typeof GD.bgFx.initBgFx === "function") {
+            GD.bgFx.initBgFx();
         }
         els.storyInput.value = DEFAULT_STORY;
         renderCategories();
