@@ -1,0 +1,19 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  background: linear-gradient(115deg, color-mix(in srgb, var(--c1) 35%, transparent) 0% 48%, color-mix(in srgb, var(--c2) 35%, transparent) 48.3% 100%);
+  mask-image: linear-gradient(to bottom, black, transparent 90%);
+}
