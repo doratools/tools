@@ -1,0 +1,24 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  inset: 10px;
+  border: 1px solid color-mix(in srgb, var(--c1) 45%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c1) 15%, transparent), transparent 40%, color-mix(in srgb, var(--c2) 15%, transparent));
+}
+#b::after {
+  inset: 14px;
+  border: 1px dashed color-mix(in srgb, var(--c2) 30%, transparent);
+}
