@@ -1,0 +1,26 @@
+/* Base setup required for all 20 effects */
+#b {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#b::before,
+#b::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+#b::before {
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+#b::after {
+  background: radial-gradient(circle at top left, color-mix(in srgb, var(--c1) 20%, transparent), transparent 60%);
+}
