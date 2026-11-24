@@ -1,3 +1,10 @@
+
+#b::before {
+  top: 50%;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--c1) 30%, transparent), color-mix(in srgb, var(--c2) 15%, transparent));
+  border-top: 1px solid color-mix(in srgb, var(--c1) 60%, transparent);
+  backdrop-filter: blur(6px);
+}
 /* Base setup required for all 20 effects */
 #b {
   position: relative;
@@ -12,11 +19,4 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
-}
-
-#b::before {
-  top: 50%;
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--c1) 30%, transparent), color-mix(in srgb, var(--c2) 15%, transparent));
-  border-top: 1px solid color-mix(in srgb, var(--c1) 60%, transparent);
-  backdrop-filter: blur(6px);
 }
