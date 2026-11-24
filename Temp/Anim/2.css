@@ -3,7 +3,6 @@
     border-radius: 16px;
     background:linear-gradient(145deg,#092f48,#126c7c);
     min-height: 155px;
-    overflow:hidden;
     isolation:isolate;
 }
 #b {
