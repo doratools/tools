@@ -1,23 +1,16 @@
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
-#b::before {
+#c::before {
   background: color-mix(in srgb, var(--c1) 22%, transparent);
   clip-path: polygon(0 0, 55% 0, 25% 100%, 0% 100%);
 }
-#b::after {
+#c::after {
   background: color-mix(in srgb, var(--c2) 22%, transparent);
   clip-path: polygon(75% 0, 100% 0, 100% 100%, 45% 100%);
 }
