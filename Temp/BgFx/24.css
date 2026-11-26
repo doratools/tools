@@ -1,19 +1,12 @@
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
-#b::before {
+#c::before {
   top: 45%;
   background: 
     linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c1) 25%, transparent)),
