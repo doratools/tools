@@ -34,8 +34,8 @@
     width: 100%;
     margin: 10px 0 0 0;
 }
-#c:before,
-#c:after {
+#b:before,
+#b:after {
     content: "";
     position: absolute;
     width: 180%;
@@ -45,11 +45,11 @@
     border-radius: 40%;
     pointer-events: none;
 }
-#c:before {
+#b:before {
     background: #29c9e455;
     animation: wave 5s ease-in-out infinite;
 }
-#c:after {
+#b:after {
     bottom: -78px;
     background: #64eaff44;
     animation: wave 7s ease-in-out infinite reverse;
