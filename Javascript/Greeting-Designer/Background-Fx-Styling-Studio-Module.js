@@ -4,7 +4,6 @@
     const GD = (window.GD = window.GD || {});
 
     const BG_FX_BASE_URL = "https://cdn.jsdelivr.net/gh/doratools/tools@main/Temp/BgFx/";
-    const BG_IMAGE_BASE_CSS = `${BG_FX_BASE_URL}0.css`;
 
     const BG_FX_LIST = [
         { id: "1", name: "1. Soft Ambient Mesh", href: `${BG_FX_BASE_URL}1.css` },
@@ -78,17 +77,7 @@
         const selectedItem = getSelectedBgFxItem();
         const hasEffectSelected = Boolean(selectedItem);
 
-        const bgImgActive = Boolean(state.bgImageEnabled);
-        const imgValidation = bgImgActive ? validateImageLink(state.bgImageUrl) : { valid: false };
-        const safeBgUrl = imgValidation.valid ? state.bgImageUrl.trim().replace(/['"\\]/g, "") : "";
-
-        let cssHref = "";
-        if (hasEffectSelected) {
-            cssHref = selectedItem.href;
-        } else if (bgImgActive) {
-            cssHref = BG_IMAGE_BASE_CSS;
-        }
-
+        const cssHref = hasEffectSelected ? selectedItem.href : "";
         const linkTag = cssHref ? `<link rel="stylesheet" href="${cssHref}">` : "";
 
         const cVars = [];
@@ -98,7 +87,9 @@
             cVars.push(`--c1:${c1};--c2:${c2};`);
         }
 
-        if (bgImgActive) {
+        if (state.bgImageEnabled) {
+            const imgValidation = validateImageLink(state.bgImageUrl);
+            const safeBgUrl = imgValidation.valid ? state.bgImageUrl.trim().replace(/['"\\]/g, "") : "";
             if (safeBgUrl) {
                 cVars.push(`--bg:url('${safeBgUrl}');`);
             }
