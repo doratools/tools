@@ -35,7 +35,7 @@
     width: 100%;
     margin: 10px 0 0 0;
 }
-#c:before {
+#b:before {
     content: "";
     position: absolute;
     inset: 0;
