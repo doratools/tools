@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600;700;800&family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700;800&family=Lora:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=EB+Garamond:wght@400;500;600;700;800&family=Bodoni+Moda:wght@400;500;600;700;800&family=Prata&family=Marcellus&family=Spectral:wght@300;400;600;700&family=Cardo:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700;800&family=Mulish:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syncopate:wght@400;700&family=Bebas+Neue&family=Abril+Fatface&family=Unbounded:wght@300;400;500;600;700;800&family=Press+Start+2P&family=Chakra+Petch:wght@300;400;500;600;700&family=Audiowide&family=Cinzel+Decorative:wght@400;700;900&family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;500;600;700&family=Alex+Brush&family=Parisienne&family=Sacramento&family=Satisfy&family=Caveat:wght@400;500;600;700&family=Allura&family=Tangerine:wght@400;700&family=Pacifico&family=Courgette&family=Kalam:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Source+Code+Pro:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap");
 #c {
     position: relative;
     border-radius: 16px;
@@ -11,8 +16,14 @@
     width: 100%;
     height: 100%;
     min-height: 155px;
+    position: relative;
+    z-index: 1;
+    background-image: var(--bg);
+    background-position: var(--bgp, 50% 50%);
+    background-size: var(--bgs, cover);
+    background-repeat: no-repeat;
 }
-#b h1, #b h3 {
+#b h1, #b h2, #b h3 {
     font-family: "Cormorant Garamond", serif;
     margin: 0 0 12px;
     text-align: center;
@@ -21,9 +32,7 @@
 #b p {
     font-family: "Inter", sans-serif;
     width: 100%;
-}
-#b i {
-    margin-top: 12px;
+    margin: 10px 0 0 0;
 }
 #b .c {
     position: absolute;
