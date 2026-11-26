@@ -1,19 +1,12 @@
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
-#b::before {
+#c::before {
   width: 60%;
   height: 45%;
   top: 10%;
@@ -23,7 +16,7 @@
   filter: blur(35px);
   opacity: 0.35;
 }
-#b::after {
+#c::after {
   width: 55%;
   height: 45%;
   bottom: 10%;
