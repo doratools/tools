@@ -1,19 +1,12 @@
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
-#b::before {
+#c::before {
   background: 
     radial-gradient(ellipse at 20% 80%, transparent 40px, color-mix(in srgb, var(--c1) 25%, transparent) 41px, transparent 43px, transparent 70px, color-mix(in srgb, var(--c1) 25%, transparent) 71px, transparent 73px),
     radial-gradient(ellipse at 80% 20%, transparent 50px, color-mix(in srgb, var(--c2) 25%, transparent) 51px, transparent 53px, transparent 90px, color-mix(in srgb, var(--c2) 25%, transparent) 91px, transparent 93px);
