@@ -1,22 +1,15 @@
 
-#b::before {
+#c::before {
   top: 50%;
   background: linear-gradient(to bottom, color-mix(in srgb, var(--c1) 30%, transparent), color-mix(in srgb, var(--c2) 15%, transparent));
   border-top: 1px solid color-mix(in srgb, var(--c1) 60%, transparent);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(0px);
 }
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
