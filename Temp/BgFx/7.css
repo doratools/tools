@@ -1,23 +1,16 @@
-/* Base setup required for all 20 effects */
-#b {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#b::before,
-#b::after {
+#c::before,
+#c::after {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
 }
-#b::before {
+#c::before {
   background-image: radial-gradient(var(--c1) 1.5px, transparent 1.5px);
   background-size: 16px 16px;
   opacity: 0.35;
 }
-#b::after {
+#c::after {
   background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--c2) 35%, transparent), transparent 60%);
 }
