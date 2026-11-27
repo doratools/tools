@@ -44,7 +44,7 @@
         doc.close();
     }
 
-    function renderPreviewFrame(tpl, mergedStyle, storyHtml, bgFxHref) {
+        function renderPreviewFrame(tpl, mergedStyle, storyHtml, bgFxHref) {
         const { els, state } = GD;
         let frameDoc = els.previewFrame.contentDocument;
         if (!frameDoc || !frameDoc.getElementById("mount")) {
@@ -65,19 +65,24 @@
 
         inlineStyle.textContent = mergedStyle;
 
+        const leadHtml = tpl.prefixHtml || "";
+        const tailHtml = tpl.extraHtml || "";
+        const innerHtml = `${leadHtml}${storyHtml}${tailHtml}`;
+
         if (state.lastRenderedTemplateId !== tpl.id) {
             extLink.setAttribute("href", tpl.css);
-            mount.innerHTML = `<div id="${tpl.outerId}"><div id="b">${storyHtml}${tpl.extraHtml}</div></div>`;
+            mount.innerHTML = `<div id="${tpl.outerId}"><div id="b">${innerHtml}</div></div>`;
             state.lastRenderedTemplateId = tpl.id;
         } else {
             const bEl = frameDoc.getElementById("b");
             if (bEl) {
-                bEl.innerHTML = `${storyHtml}${tpl.extraHtml}`;
+                bEl.innerHTML = innerHtml;
             } else {
-                mount.innerHTML = `<div id="${tpl.outerId}"><div id="b">${storyHtml}${tpl.extraHtml}</div></div>`;
+                mount.innerHTML = `<div id="${tpl.outerId}"><div id="b">${innerHtml}</div></div>`;
             }
         }
     }
+
 
     function updatePreviewMeta(tpl) {
         GD.els.previewActiveName.textContent = `• ${tpl.name}`;
