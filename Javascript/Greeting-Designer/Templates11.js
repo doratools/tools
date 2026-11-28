@@ -442,7 +442,7 @@
             name: "01. Royal Archives",
             desc: "An interactive archive card with a collapsible wax seal disclosure and courier dispatch notes.",
             css: "https://cdn.jsdelivr.net/gh/doratools/tools@main/Temp/Inte/1.css",
-            style: "#b h1{font-size:11px;color:#7a633e;}\n#b p{font-size:15px;color:#3d3122;}\n#b [s]{color:#ffdada;}",
+            style: "#b h1{font-size:34px;color:#7a633e;}\n#b p{font-size:15px;color:#3d3122;}\n#b i{color:#3d3122;}",
             swatch: "linear-gradient(135deg,#7a633e45,#ffdada33 65%,#0f1320)",
             outerId: "c",
             prefixHtml: "<details><summary><div s>⚜</div></summary></details>",
